@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<!-- Here we are getting the user information from user profile-->
+<!-- <div class="row">
+    <div class="col-12 col-sm-auto mb-3">
+      <div class="user-media">
+         <img class="mb-3 rounded-pill shadow-sm mt-1 img-fluid" src="{{user.profile.profile_img.url}}" alt="profile-img">
+      </div>
+    </div>
+    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+      <div class="text-center text-sm-left mb-2 mb-sm-0">
+        <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.username| capfirst}}</h4>
+        <p class="mb-0">{{user.profile.phone_number}}</p>
+        <p class="mb-0">{{user.email}}</p>
+     
+      </div>
+     
+    </div>
+  </div> -->
+
+  <div class="edit-profile">
+      <h1 class="profile-heading mb-5"> Profile & Settings </h1>
+
+  <!-- We have created a form where user can edit their profile using django crispy form-->
+      <form method="POST" enctype="multipart/form-data"> {% csrf_token %}     
+        <div class="row">
+          <div class="col-lg-12">
+
+            <div class="row">
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    {{user_form.full_name| as_crispy_field}}
+                </div>
+              </div>
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  
+                  {{user_form.email| as_crispy_field}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                  
+                  {{create_form.phone_number| as_crispy_field}}
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    {{create_form.gender| as_crispy_field}}
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+             
+
+               <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    {{create_form.address| as_crispy_field}}
+                </div>
+              </div>
+
+              <div class="col-lg-6 col-sm-12">
+                <div class="form-group">
+                    {{create_form.profile_img| as_crispy_field}}
+                </div>
+              </div>
+             
+            </div>
+
+         
+            <div class="row">
+              <div class="col lg-12">
+                <div class="form-group">
+                    {{create_form.about| as_crispy_field}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="col d-flex justify-content-start">
+              <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+      </form>
+
+    </div>
+
+{% endblock %} 

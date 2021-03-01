@@ -1,0 +1,162 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+
+<div class="row">
+  
+  <div class="col-lg-12 text-center my-4 grad-hat">
+
+    <img src="{% static 'images/grad-hat.png' %}" class="img-fluid" alt="main-img">
+
+  </div>
+
+</div>
+
+<div class="row ">
+
+  <div class="col-lg-3 main-img">
+    <img src="{% static 'images/main-img.png' %}" class="img-fluid" alt="main-img">
+  </div>
+
+
+
+ <!--Here we created a longin for where the user can login from the app itself or use thrid party app like facebook and google to login-->
+<div class="login-form col-lg-3">
+
+    <ul class="tab-group">
+        <li class="tab active"><a href="#login">Log In</a></li>
+        <li class="tab"><a href="#signup">Sign Up</a></li>
+      </ul>
+
+      <div class="tab-content">
+
+          <div id="login"> 
+            
+
+            <form method="POST"> {% csrf_token %}
+
+                <div class="text-center social-login">
+                    <a href="{% provider_login_url 'google'%}" class="btn text-white btn-block btn-google"><i class="fab fa-google"></i> Login with <b>Google</b></a>
+                    <a href="{% provider_login_url 'facebook'%}" class="btn text-white btn-block btn-facebook"><i class="fab fa-facebook-f"></i> Login with <b>Facebook</b></a>
+                </div>
+
+                <div class="or-seperator"><i>or</i></div>
+
+                <div class="form-group">       
+                    {{login_form| crispy}}
+                  
+                </div>
+          
+        
+                <div class="form-group">
+                    <button type="submit" name='submit' class="btn text-white btn-block login-btn" value="login">Submit</button>
+                </div>
+
+                
+
+              </form>
+
+          </div>
+          
+          <div id ='signup'>
+
+            <form method="POST"> {% csrf_token %}
+
+            <div class="form-group">       
+              {{register_form| crispy}}           
+          </div>
+  
+              <div class="form-group">
+                  <button type="submit" name='submit' class="btn text-white btn-block login-btn" value="signin">Submit</button>
+              </div>
+                
+
+              </form>
+
+          </div>
+              
+        
+          
+
+        
+        </div> <!-----end tab content-->
+        
+    
+  </div><!--login form end-->
+
+  <div class="col-lg-4">
+
+    <blockquote class="blockquote">
+      <p class="mb-0">"Everything comes to us that belongs to us if we create the capacity to receive it"</p>
+      <footer class="blockquote-footer text-right mt-5">Rabindranath Tagore</footer>
+    </blockquote>
+
+    <a href="#" class="btn-donate">Donate</a>
+
+    <div class="footer">
+      <p>An Interface to connect with  your favorite mentor</p>
+      <p class="ml-5">@CopyRight AI-Interf 2020</p>
+    </div>
+
+  </div>
+
+  </div><!-- end row-->
+
+{% endblock %} 
+
+
+{% block scripts %}
+    
+
+
+<script>
+  $('.login-form').find('input').on('keyup blur focus', function (e) {
+  
+  var $this = $(this),
+      label = $this.prev('label');
+
+	  if (e.type === 'keyup') {
+			if ($this.val() === '') {
+          label.removeClass('active highlight');
+        } else {
+          label.addClass('active highlight');
+        }
+    } else if (e.type === 'blur') {
+    	if( $this.val() === '' ) {
+    		label.removeClass('active highlight'); 
+			} else {
+		    label.removeClass('highlight');   
+			}   
+    } else if (e.type === 'focus') {
+      
+      if( $this.val() === '' ) {
+    		label.removeClass('highlight'); 
+			} 
+      else if( $this.val() !== '' ) {
+		    label.addClass('highlight');
+			}
+    }
+
+});
+
+$('.tab a').on('click', function (e) {
+  
+  e.preventDefault();
+  
+  $(this).parent().addClass('active');
+  $(this).parent().siblings().removeClass('active');
+  
+  target = $(this).attr('href');
+
+  $('.tab-content > div').not(target).hide();
+  
+  $(target).fadeIn(600);
+  
+});
+</script>
+
+{% endblock scripts %}
+

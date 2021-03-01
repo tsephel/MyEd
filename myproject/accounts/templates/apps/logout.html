@@ -1,0 +1,16 @@
+
+{% extends 'main.html' %}
+
+
+{% block content %}
+	
+<!-- This is a logout page-->
+	<h2> Your account has been logged out </h2>
+
+	<div class="border-top pt-3">
+		<small class="text-muted">
+			To Login Again!	<a class = 'ml-2' href="{% url 'login' %}"> Login </a>
+		</small>	
+	</div>
+
+	{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h1 class="profile-heading mb-5"> Search Result </h1>
+
+
+
+<div class="row mb-5">
+
+<div class="col-lg-12 col-carousel ">  
+
+  <!-- Template which renders all the couser that has been upload by the user -->
+          
+    <div class="owl-carousel carousel-main">
+
+      {% for latest in search %}
+
+            <div class="card latest-card">
+
+              <a href="{% url 'tutorial' latest.id %}"> 
+
+              <!-- Card image -->
+                  <div class="latest-img">
+                    <img class="card-img-top" src="{{latest.poster.url}}" alt="Card image cap">
+                  </div>
+
+                  <!-- Card content -->
+                  <div class="card-body">
+
+                    <!-- Title -->
+                    <p class="card-title font-weight-bold"><a>{{ latest.title}}</a><p>
+                    <!-- Data -->
+                    <ul class="list-unstyled list-inline rating mb-0">
+                      <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
+                      <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+                      <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+                      <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+                      <li class="list-inline-item"><i class="fas fa-star amber-text"></i></li>
+                      <li class="list-inline-item"><p class="text-muted">4.5 (413)</p></li>
+                    </ul>
+                    <p>{{latest.user.full_name | capfirst}}</p>
+
+                    {% if search.price %}
+                      <p class="mb-2">Rs.{{latest.price}}</p> 
+                    {% else %}
+                      <p class="mb-2">Free</p>
+                    {% endif %}
+
+                  </div>
+                  </a>
+              </div>
+
+              {% empty %}
+              <div class="container-fluid">
+                <h3> No post found having search query {{ request.GET.q }}</h3>
+              </div>
+            {% endfor %}
+
+      </div>
+
+  </div>
+</div>
+
+{% endblock %} 
+
+{% block scripts %}
+
+<script type="text/javascript">
+
+  $('.carousel-main').owlCarousel({
+    autoPlay: false,
+    center: true,
+    items: 3,
+    loop: true,
+    stopOnHover : true,
+    autoplayTimeout: 1500,
+    margin: 10,
+    navigation: true,
+    dots: false,
+    navigationText: ['<span class="fas fa-chevron-left fa-2x"></span>','<span class="fas fa-chevron-right fa-2x"></span>'],
+  });
+
+</script>
+    
+{% endblock scripts %}

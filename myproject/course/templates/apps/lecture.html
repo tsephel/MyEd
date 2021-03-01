@@ -1,0 +1,340 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- We get the user information that as added the course-->
+<div class="row mb-2">
+    <div class="col-9">
+      <h1>{{ tutorial.title}}</h1>
+      <h5>{{ tutorial.user| capfirst}}</h5>
+      
+    </div>
+
+    <!-- if the course is realted to the user than they can delete or edit the course-->
+    <div class="col-mb-3">
+      {% if tutorial.user == request.user %}
+
+      <a href="{% url 'content-edit' tutorial.id %}"><button class="btn btn-secondary">Edit Content</button></a>
+      <a href="{% url 'content-delete' tutorial.id %}"><button class="btn btn-danger">Delete Content</button></a>
+    
+    {%endif%}
+    </div>
+  </div>
+
+  <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Lecture Youtube Links</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Lecture Video</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">lecture Powerpoint Slides</a>
+    </li>
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+
+    <!------------Youtube -------------->
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+      <div class="row">
+   
+        <div class="col-lg-4 col-sm-12 playlist">
+       
+         
+           {% for slides in tutorial.lecture_set.all %}
+
+           {% if slides.youtube_url %}
+           
+             <a href="{{slides.youtube_url}}" target="iframe_a">
+               
+              <div class="row mt-2">
+              
+ 
+                <div class="col-lg-3">
+                 <img src="{{slides.course.poster.url}}" class="img-fluid" alt="lecture slides">
+                </div>
+ 
+                <div class="col-lg-9">
+                  <p>{{slides.lecture_title}}</p>
+                </div>
+              </div>
+               
+             </a>
+          
+           <hr>
+
+           
+         {% else  %}
+
+         <p> There are no slides uploaded.</p>
+
+         {% endif %}
+           
+           {% endfor %}
+
+     </div>
+    
+     <div class="col-lg-8 col-sm-12">
+ 
+       <iframe class="frame" src="" name="iframe_a" id="fitvid0" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ 
+       
+     </div>
+ 
+  
+   </div>
+    </div>
+
+    <!-----------------Video ------------------>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+      <div class="row" id="video_player">
+   
+        <div class="col-lg-4 col-sm-12 playlist">
+ 
+          {% for slides in tutorial.lecture_set.all %}
+
+          {% if slides.lecture_content %}
+           
+          <a href="{{slides.lecture_content.url}}">
+            
+           <div class="row mt-2">
+           
+
+             <div class="col-lg-3">
+              <img src="{{slides.course.poster.url}}" class="img-fluid" alt="lecture slides">
+             </div>
+
+             <div class="col-lg-9">
+               <p>{{slides.lecture_title}}</p>
+             </div>
+           </div>
+            
+          </a>
+       
+        <hr>
+
+         {% else  %}
+
+            <p> There are no slides uploaded.</p>
+
+            {% endif %}
+        {% endfor %}
+     </div>
+    
+     <div class="col-lg-8 col-sm-12 videoarea">
+
+      <video class="frame" muted controls controlslist="nodownload" data-autoplay-on-select="true" data-showing-captions="true" poster="{{ tutorial.poster.url }}" id="videoarea">
+         <source src="" type="video/mp4">
+         <source src="" type="video/webm">
+ 
+     </div>
+ 
+  
+   </div>
+    </div>
+
+    <!-----------------Powerpoint ------------------>
+    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+      <div class="row">
+        <div class="col-lg-12">
+              {% if tutorial.powerpoint_url %}
+                <iframe src="{{tutorial.powerpoint_url|safe}}" width="1000px" height="500px" frameborder="0"></iframe>
+              {% else %}
+              <h1 class="text-center font-weight-bold "> There is no slide uploaded</h1>
+              {% endif %}
+        
+          
+          </div>
+      </div>
+    </div>
+  </div>  
+
+         <!-----------------Lecture Description ---------------------------->
+
+    <div class="row mt-5"><!-----------row open -------->
+        <div class="col-lg-8">
+              <ul class="nav nav-tabs">
+
+               <li class="nav-item">
+                  <a class="nav-link active" href="#home"data-toggle="tab">Overview</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#comments">Q&A</a>
+                </li>
+                 
+              </ul>
+
+                <div class="tab-content my-4"> <!------Tab content open---->
+
+                    <div id="home" class="tab-pane active">
+                      <h3>About this Course</h3>
+                      <hr>
+
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <p class="font-weight-bold">By the number:</p>
+                        </div>
+
+                        <div class="col-lg-">
+                          <p>Skills:{{tutorial.skills| capfirst}} </p>
+                          <p>Language:English</p>
+                          <p>Hours:29hr</p>
+                          <p>Caption:No</p>
+                        </div>
+                      </div>
+                      <hr>
+
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <p class="font-weight-bold">PowerPoint Slide:</p>
+                        </div>
+
+                        <div class="col-lg-4">
+                          {% if tutorial.powerpoint_slides %}
+                            <a href="{{ tutorial.powerpoint_slides.url}}" class="btn btn-primary" target="_blank"> Download SLides</a>
+                          {% else %}
+                            <p> N/A </p>
+                          {% endif %}
+                        </div>
+                      </div>
+                      <hr>
+
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <p class="font-weight-bold">Description:</p>
+                        </div>
+
+                        <div class="col-lg-5">
+                          <span>What you will learn?</span>
+                         
+                          <ul>
+                            {% for slides in tutorial.lecture_set.all %}
+                              <li>{{ slides.lecture_title}}</li>
+                            {% endfor %}
+                          </ul>
+                      
+                        </div>
+                      </div>
+
+                    </div>
+
+                    <div id="comments" class="tab-pane">
+
+
+                   <!------------For Comment section---------->
+
+                      {{ comments.count}} Comment{{ comments|pluralize}}
+                      <hr>
+
+                    <div class="main-comment-section">
+
+                      <div class="container-fluid mt-2">
+                        <div class="form-group row">
+                          <form method="POST" class="comment-form">
+                            {% csrf_token %}
+                            {{ comment_form.as_p }}
+                            {% if request.user.is_authenticated %}
+                              <input type="submit" value="Comment" class="btn btn-outline-success">
+                            {% else %}
+                              <input type="submit" value="Comment" class="btn btn-outline-success" disabled>
+                            {% endif %}
+                          </form>
+                        </div>
+                      </div>
+
+                   
+
+                        {% for comment in comments %}
+
+                       <!------------To view the comment---------->
+                        <blockquote class="blockquote">
+                          <p class="mb-0"><small>{{ comment.comment}}</small></p>
+                          <footer class="blockquote-footer"><small><cite title="Source Title">{{ comment.user|capfirst}} </cite></small>
+                            <button type="button" name="button" class="reply-btn btn btn-outline-dark-sm ml-2">Reply{{ comment.count}}</button></footer>
+                        </blockquote>
+
+                         <!------------To reply comment---------->
+                        <div class="replied-comments container mt-2" style="display:none;">
+                          
+                          {% for reply in comment.replies.all %}
+
+                          <blockquote class="blockquote">
+                            <p class="mb-0"><small>{{ reply.comment }}</small></p>
+                            <footer class="blockquote-footer"><small>by <cite title="Source Title">{{ reply.user|capfirst }}</cite></small></footer>
+                          </blockquote>
+                          {% endfor %}
+
+                           <!------------To write reply for the comment---------->
+                          <div class="form-group row">
+                            <form method="POST" class="comment-form">
+                              {% csrf_token %}
+                              <input type="hidden" name="comment_id" value="{{ comment.id }}">
+                              {{ comment_form.as_p }}
+
+                              {% if user.is_authenticated %}
+                                <input type="submit" value="Reply" class="btn btn-outline-success">
+                              {% else %}
+                                <input type="submit" value="Reply" class="btn btn-outline-success" disabled>
+                              {% endif %}
+                            </form>
+                          </div>
+                        </div>
+
+                        {% endfor %}
+                    </div>
+                                    
+
+                      </div>
+                     
+             
+                </div><!------ Tab content close---->
+        </div>
+    </div><!-----------------row close ------------->
+
+    {% block scripts %}
+
+    <script type="text/javascript">
+
+      // reply button
+        $(document).ready(function(event){
+            $('.reply-btn').click(function() {
+            $(this).parent().parent().next('.replied-comments').fadeToggle()
+          });
+        }); 
+
+
+    // video player
+      var video_player = document.getElementById("video_player"),
+      links = video_player.getElementsByTagName('a');
+      for (var i=0; i<links.length; i++) {
+        links[i].onclick = handler;
+      }
+
+          function handler(e) {
+            e.preventDefault();
+            videotarget = this.getAttribute("href");
+            filename = videotarget.substr(0, videotarget.lastIndexOf('.')) || videotarget;
+            video = document.querySelector("#video_player video");
+            video.removeAttribute("poster");
+            source = document.querySelectorAll("#video_player video source");
+            source[0].src = filename + ".mp4";
+            source[1].src = filename + ".webm";
+            video.load();
+            video.play();    
+          }
+
+        
+         
+  </script>
+    
+    {% endblock scripts %}
+
+ 
+
+   
+
+{% endblock %} 
+
+
