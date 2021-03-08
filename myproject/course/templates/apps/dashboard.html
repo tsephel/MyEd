@@ -3,10 +3,56 @@
 
 
 {% block content %}
+	<div class="dashboard-num container-fluid">
+	    <div class="row text-center">
+	        <div class="col-lg-4 col-md-6 col-12 mt-3">
+	            <div class="card">
+	                <div class="card-horizontal">
+	                    <div class="icon-img">
+	                        <img class="img-fluid" src="{% static 'images/math.png' %}" alt="Card image cap">
+	                    </div>
+	                    <div class="card-body">
+	                        <h4 class="card-title">Courses</h4>
+	                        <p class="card-text">{{course_count}}</p>
+	                    </div>
+	                </div>
+	               
+	            </div>
+	        </div>
 
-<h1> Number of Courses: {{course_count}}</h1>
-<h1> Number of Student: {{student_count}}</h1>
-<h1> Number of Teacher: {{teacher_count}}</h1>
+	        <div class="col-lg-4 col-md-6 col-12 mt-3">
+	            <div class="card">
+	                <div class="card-horizontal">
+	                    <div class="icon-img">
+	                        <img class="img-fluid" src="{% static 'images/student.png' %}" alt="Card image cap">
+	                    </div>
+	                    <div class="card-body">
+	                        <h4 class="card-title">Student</h4>
+	                        <p class="card-text">{{student_count}}</p>
+	                    </div>
+	                </div>
+	             
+	            </div>
+	        </div>
+
+	        <div class="col-lg-4 col-md-6 col-12 mt-3">
+	            <div class="card">
+	                <div class="card-horizontal">
+	                    <div class="icon-img">
+	                        <img class="img-fluid" src="{% static 'images/teacher.png' %}" alt="Card image cap">
+	                    </div>
+	                    <div class="card-body">
+	                        <h4 class="card-title">Teacher</h4>
+	                        <p class="card-text">{{teacher_count}}</p>
+	                    </div>
+	                </div>
+	            
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+
 
 
 

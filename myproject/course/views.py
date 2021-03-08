@@ -149,6 +149,7 @@ def verification_view(request):
             verify = verify_form.save(commit=False)
             verify.user = request.user
             verify.save()
+
     else:
         verify_form = VerificationForm() 
     
